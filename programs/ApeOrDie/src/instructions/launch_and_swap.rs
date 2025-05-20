@@ -395,15 +395,13 @@ impl<'info> LaunchAndSwap<'info> {
         let user_ata = &mut self.user_ata;
 
         // Get dev wallet accounts if enabled
-        let (dev_wallet, dev_wallet_ata) = if self.global_config.dev_fee_enabled {
-            (self.dev_wallet.as_mut(), self.dev_wallet_ata.as_mut())
-        } else {
-            (None, None)
-        };
+        let dev_wallet_ref = self.dev_wallet.as_ref();
+        let dev_wallet_ata_ref = self.dev_wallet_ata.as_ref();
 
         // Create dev wallet ATA if needed and enabled
         if self.global_config.dev_fee_enabled {
-            if let (Some(dev_wallet_info), Some(dev_wallet_ata_info)) = (dev_wallet, dev_wallet_ata)
+            if let (Some(dev_wallet_info), Some(dev_wallet_ata_info)) =
+                (dev_wallet_ref, dev_wallet_ata_ref)
             {
                 if dev_wallet_ata_info.data_is_empty() {
                     anchor_spl::associated_token::create(CpiContext::new(
@@ -432,8 +430,8 @@ impl<'info> LaunchAndSwap<'info> {
             source,
             team_wallet,
             team_wallet_ata,
-            dev_wallet,
-            dev_wallet_ata,
+            self.dev_wallet.as_mut(),
+            self.dev_wallet_ata.as_mut(),
             amount,
             direction,
             minimum_receive_amount,

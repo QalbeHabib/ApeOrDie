@@ -102,9 +102,9 @@ pub trait BondingCurveAccount<'info> {
         user_ata: &mut AccountInfo<'info>,
         source: &mut AccountInfo<'info>,
         team_wallet: &mut AccountInfo<'info>,
-        team_wallet_ata: &mut AccountInfo<'info>,
+        _team_wallet_ata: &mut AccountInfo<'info>,
         dev_wallet: Option<&mut AccountInfo<'info>>,
-        dev_wallet_ata: Option<&mut AccountInfo<'info>>,
+        _dev_wallet_ata: Option<&mut AccountInfo<'info>>,
         amount: u64,
         direction: u8,
         minimum_receive_amount: u64,
@@ -157,9 +157,9 @@ impl<'info> BondingCurveAccount<'info> for Account<'info, BondingCurve> {
 
         source: &mut AccountInfo<'info>,
         team_wallet: &mut AccountInfo<'info>,
-        team_wallet_ata: &mut AccountInfo<'info>,
+        _team_wallet_ata: &mut AccountInfo<'info>,
         dev_wallet: Option<&mut AccountInfo<'info>>,
-        dev_wallet_ata: Option<&mut AccountInfo<'info>>,
+        _dev_wallet_ata: Option<&mut AccountInfo<'info>>,
 
         amount: u64,
         direction: u8,
@@ -187,7 +187,7 @@ impl<'info> BondingCurveAccount<'info> for Account<'info, BondingCurve> {
         msg!("reserve_lamport: {:?} ", self.reserve_lamport);
 
         // Calculate swap and refund amounts
-        let (amount_to_swap, refund_amount, adjusted_minimum_receive) = if direction == 1 {
+        let (amount_to_swap, _refund_amount, adjusted_minimum_receive) = if direction == 1 {
             (amount, 0, minimum_receive_amount)
         } else {
             let remaining = self.curve_limit.saturating_sub(self.reserve_lamport);

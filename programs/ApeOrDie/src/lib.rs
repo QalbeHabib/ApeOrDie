@@ -13,7 +13,7 @@ use state::Config;
 declare_id!("4xtGd7RJWG2nZWRCARw7PjgFbZQHDNi6BX7PiBBumSBw");
 
 #[program]
-pub mod AprOrDie {
+pub mod apr_or_die {
     use super::*;
 
     //  called by admin to set global config
