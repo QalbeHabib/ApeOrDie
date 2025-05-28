@@ -10,10 +10,10 @@ use anchor_lang::prelude::*;
 use state::Config;
 // use crate::errors::PumpfunError;
 
-declare_id!("4xtGd7RJWG2nZWRCARw7PjgFbZQHDNi6BX7PiBBumSBw");
+declare_id!("Ks6N2eSijgaQ6Gjpjc78M6deX8LrngprTPt5zxombdK");
 
 #[program]
-pub mod apr_or_die {
+pub mod ape_or_die {
     use super::*;
 
     //  called by admin to set global config
@@ -86,36 +86,6 @@ pub mod apr_or_die {
         ctx.accounts.process(
             amount,
             direction,
-            minimum_receive_amount,
-            deadline,
-            ctx.bumps.global_vault,
-        )
-    }
-
-    // Combined launch and swap instruction for initial buy on token launch
-    pub fn launch_and_swap(
-        ctx: Context<LaunchAndSwap>,
-        // launch config
-        decimals: u8,
-        token_supply: u64,
-        virtual_lamport_reserves: u64,
-        // metadata
-        name: String,
-        symbol: String,
-        uri: String,
-        // swap config
-        swap_amount: u64,
-        minimum_receive_amount: u64,
-        deadline: i64,
-    ) -> Result<u64> {
-        ctx.accounts.process(
-            decimals,
-            token_supply,
-            virtual_lamport_reserves,
-            name,
-            symbol,
-            uri,
-            swap_amount,
             minimum_receive_amount,
             deadline,
             ctx.bumps.global_vault,

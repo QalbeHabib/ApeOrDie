@@ -1,6 +1,7 @@
 import * as anchor from "@coral-xyz/anchor";
-import { Program, web3 } from "@coral-xyz/anchor";
-import type { AprOrDie } from "../target/types/apr_or_die";
+import { Program } from "@coral-xyz/anchor";
+import { ApeOrDie } from "../target/types/ape_or_die";
+import * as web3 from "@solana/web3.js";
 import { BN } from "bn.js";
 import { config } from "dotenv";
 
@@ -9,56 +10,46 @@ console.log("ENV: ", process.env.ENV);
 
 (async () => {
   console.log("Starting initApeOrDie");
-  // Set up the Anchor provider (e.g., env variables and wallet)
+  // Set up the Anchor provider
   const deployer = anchor.AnchorProvider.env();
   console.log("deployer: ", deployer);
   anchor.setProvider(deployer);
-
-  console.log("deployer: ", deployer);
-
-  // Instantiate the program using the IDL and programId.
-  const program = anchor.workspace.AprOrDie as Program<AprOrDie>;
+  // Instantiate the program using the IDL and programId
+  const program = anchor.workspace.ApeOrDie as Program<ApeOrDie>;
 
   console.log("programId: ", program.programId.toBase58());
 
-  // Derive the PDA for the "config" account.
+  // Derive the PDA for the "config" account
   const [configPDA] = web3.PublicKey.findProgramAddressSync(
     [Buffer.from("config")],
     program.programId
   );
 
-  // Derive the PDA for the "global_vault" account.
-  const [globalVault] = web3.PublicKey.findProgramAddressSync(
+  // Derive the PDA for the "global_vault" account
+  const [globalVaultPDA] = web3.PublicKey.findProgramAddressSync(
     [Buffer.from("global")],
     program.programId
   );
 
-  // Prepare the seed for the "global_wsol_account" PDA.
-  // The constant array is given in the IDL:
-  const globalWsolSeed = Buffer.from([
-    6, 221, 246, 225, 215, 101, 161, 147, 217, 203, 225, 70, 206, 235, 121, 172,
-    28, 180, 133, 237, 95, 91, 55, 145, 58, 140, 245, 133, 126, 255, 0, 169,
-  ]);
-
-  // The native mint account is provided in the IDL.
+  // The native mint account
   const nativeMint = new web3.PublicKey(
     "So11111111111111111111111111111111111111112"
   );
   const associatedTokenProgramId = new web3.PublicKey(
     "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
-  ); // Correct Associated Token Program ID
+  );
   const tokenProgramId = new web3.PublicKey(
     "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
-  ); // Token Program ID
+  );
 
-  // Correctly derive the Associated Token Account for the global_vault's WSOL
-  const [globalWsolAccount] = web3.PublicKey.findProgramAddressSync(
+  // Derive the Associated Token Account for the global_vault's WSOL
+  const [globalWsolAccountPDA] = web3.PublicKey.findProgramAddressSync(
     [
-      globalVault.toBuffer(), // Authority
-      tokenProgramId.toBuffer(), // Token Program ID
-      nativeMint.toBuffer(), // Mint
+      globalVaultPDA.toBuffer(),
+      tokenProgramId.toBuffer(),
+      nativeMint.toBuffer(),
     ],
-    associatedTokenProgramId // Associated Token Program ID
+    associatedTokenProgramId
   );
 
   console.log(
@@ -66,59 +57,57 @@ console.log("ENV: ", process.env.ENV);
     deployer.wallet.publicKey.toBase58()
   );
 
-  // Define your new configuration data.
-  // Adjust these fields as needed to your deployment requirements.
+  // Define the configuration data
   const newConfig = {
-    authority: new anchor.web3.PublicKey(
-      "5fqxDjhDrCYohN3L24K9p33DWnqaBBD8edPSt1mXczgh"
-    ),
-    pendingAuthority: new anchor.web3.PublicKey(
-      "5fqxDjhDrCYohN3L24K9p33DWnqaBBD8edPSt1mXczgh"
-    ),
-    teamWallet: new anchor.web3.PublicKey(
-      "5fqxDjhDrCYohN3L24K9p33DWnqaBBD8edPSt1mXczgh"
-    ),
-    devWallet: new anchor.web3.PublicKey(
-      "5fqxDjhDrCYohN3L24K9p33DWnqaBBD8edPSt1mXczgh" // Set to the same as teamWallet for now, change as needed
-    ),
+    authority: deployer.wallet.publicKey,
+    pendingAuthority: deployer.wallet.publicKey,
+    teamWallet: deployer.wallet.publicKey,
+    devWallet: deployer.wallet.publicKey,
     initBondingCurve: 100,
-    platformBuyFee: new BN(100),
-    platformSellFee: new BN(100),
-    // New fee configuration
-    tradingFeeBps: 100, // 1% trading fee
-    devFeeShareBps: 5000, // 50% of trading fee goes to dev
-    devFeeEnabled: true, // Enable dev fee split
-    curveLimit: new BN(process.env.ENV === "dev" ? 11300000000 : 113000000000),
+    platformBuyFee: new BN(0),
+    platformSellFee: new BN(0),
+    tradingFeeBps: 100, // 1%
+    devFeeShareBps: 5000, // 50%
+    devFeeEnabled: true,
+    curveLimit: new BN(100),
     lamportAmountConfig: {
       range: {
-        min: new BN(0.01 * anchor.web3.LAMPORTS_PER_SOL),
-        max: new BN(100 * anchor.web3.LAMPORTS_PER_SOL),
+        min: new BN(1000000), // 1 SOL
+        max: new BN(1000000000), // 1000 SOL
       },
     },
     tokenSupplyConfig: {
-      range: { min: new BN(5000), max: new BN(1000000000000000) },
+      range: {
+        min: new BN(1000000), // 1 SOL
+        max: new BN(1000000000), // 1000 SOL
+      },
     },
-    tokenDecimalsConfig: { range: { min: 6, max: 9 } },
+    tokenDecimalsConfig: {
+      range: {
+        min: 6,
+        max: 9,
+      },
+    },
   };
 
   // Add logging to verify the configuration object
   console.log("New Config:", newConfig);
   console.log("Config PDA:", configPDA.toBase58());
-  console.log("Global Vault PDA:", globalVault.toBase58());
-  console.log("Global WSOL Account PDA:", globalWsolAccount.toBase58());
+  console.log("Global Vault PDA:", globalVaultPDA.toBase58());
+  console.log("Global WSOL Account PDA:", globalWsolAccountPDA.toBase58());
 
   const accounts = {
     payer: deployer.wallet.publicKey,
     config: configPDA,
-    global_vault: globalVault,
-    global_wsol_account: globalWsolAccount,
-    native_mint: nativeMint,
-    system_program: web3.SystemProgram.programId,
-    token_program: tokenProgramId,
-    associated_token_program: associatedTokenProgramId,
+    globalVault: globalVaultPDA,
+    globalWsolAccount: globalWsolAccountPDA,
+    nativeMint: nativeMint,
+    systemProgram: web3.SystemProgram.programId,
+    tokenProgram: tokenProgramId,
+    associatedTokenProgram: associatedTokenProgramId,
   };
 
-  // Send the configure transaction.
+  // Send the configure transaction
   try {
     const txSignature = await program.methods
       .configure(newConfig)

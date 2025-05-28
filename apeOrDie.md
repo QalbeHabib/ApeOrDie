@@ -21,8 +21,6 @@ ApeOrDie is a Solana program designed for the rapid launch and trading of SPL (S
     - A percentage of the `token_supply` (defined in global `Config` by `init_bonding_curve`) is allocated to the bonding curve. The remaining tokens are sent to a designated `team_wallet`.
     - Creates MPL (Metaplex) token metadata for the new token.
     - The `global_vault` PDA (Program Derived Address) acts as the mint authority for the new token.
-- **`launch_and_swap(...)`**:
-  - A combined instruction that first launches a token (as described above) and then immediately performs a buy (swap) transaction for the token on behalf of the creator or an initial buyer.
 
 ### 2. Trading (Swapping)
 

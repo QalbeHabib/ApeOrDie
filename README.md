@@ -2,7 +2,7 @@
 
 ## Overview
 
-ApeOrDie is a Solana-based program designed to facilitate token launches and manage bonding curves. This project leverages the Anchor framework for Solana smart contract development. Additionally, it integrates with the Raydium Vault for enhanced liquidity management.
+ApeOrDie is a Solana-based program designed to facilitate token launches and manage bonding curves. This project leverages the Anchor framework for Solana smart contract development.
 
 ## Features
 
@@ -47,35 +47,29 @@ ApeOrDie is a Solana-based program designed to facilitate token launches and man
    - For Devnet:
 
      ```bash
-     yarn deploy:AprOrDie_dev
-     yarn deploy:vault_dev
+     yarn deploy:ApeOrDie_dev
      ```
 
    - For Mainnet:
 
      ```bash
-     yarn deploy:AprOrDie_main
-     yarn deploy:vault_main
+     yarn deploy:ApeOrDie_main
      ```
 
 ## Usage
 
-### Initialize ApeOrDie & Raydium Vault
-
-To initialize the `AprOrDie` and `raydium_vault` programs, use the `initApeOrDie.ts` and `initRayVault.ts` script:
+To initialize the `ApeOrDie` programs, use the `initApeOrDie.ts` script:
 
 - For Devnet:
 
   ```bash
-  yarn init:AprOrDie_dev
-  yarn init:vault_dev
+  yarn init:ApeOrDie_dev
   ```
 
 - For Mainnet:
 
   ```bash
-  yarn init:AprOrDie_main
-  yarn init:vault_main
+  yarn init:ApeOrDie_main
   ```
 
 ### Verify Your Initialization
@@ -101,10 +95,6 @@ To launch a token, use the `launchToken.ts` script:
 ```bash
 yarn launch:dev
 ```
-
-### Manage Raydium Vault
-
-To interact with the Raydium Vault, use the provided scripts:
 
 - **Change Vault Executor**:
 

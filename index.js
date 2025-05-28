@@ -1,1 +1,1 @@
-export * from "./types/AprOrDie.js"
+export * from "./types/ApeOrDie.js"

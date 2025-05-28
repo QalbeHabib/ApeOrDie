@@ -27,16 +27,16 @@ pub enum PumpfunError {
 
     #[msg("Incorrect team wallet address")]
     IncorrectTeamWallet,
-    
+
     #[msg("Curve is not completed")]
     CurveNotCompleted,
-    
+
     #[msg("Can not swap after the curve is completed")]
     CurveAlreadyCompleted,
-    
+
     #[msg("Mint authority should be revoked")]
     MintAuthorityEnabled,
-    
+
     #[msg("Freeze authority should be revoked")]
     FreezeAuthorityEnabled,
 

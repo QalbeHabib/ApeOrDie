@@ -1,6 +1,6 @@
 import * as anchor from "@coral-xyz/anchor";
 import { Program, web3 } from "@coral-xyz/anchor";
-import type { ApeOrDie } from "../target/types/AprOrDie.ts";
+import type { ApeOrDie } from "../programs/ApeOrDie/target/types/ApeOrDie.js";
 
 (async () => {
   console.log("Starting acceptAuthority");

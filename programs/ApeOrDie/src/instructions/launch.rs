@@ -11,9 +11,9 @@ use anchor_spl::{
     metadata::{self, mpl_token_metadata::types::DataV2, Metadata},
     token::{self, spl_token::instruction::AuthorityType, Mint, Token},
 };
-
 #[derive(Accounts)]
 #[instruction(decimals: u8)]
+
 pub struct Launch<'info> {
     #[account(
         mut,
@@ -226,7 +226,7 @@ impl<'info> Launch<'info> {
                 signer_seeds,
             ),
             amount_to_team,
-        )?;        
+        )?;
 
         // create metadata
         metadata::create_metadata_accounts_v3(
@@ -273,8 +273,9 @@ impl<'info> Launch<'info> {
 
         bonding_curve.is_completed = false;
 
-        msg!("NewToken: {} {}", 
-            bonding_curve.token_mint, 
+        msg!(
+            "NewToken: {} {}",
+            bonding_curve.token_mint,
             bonding_curve.creator
         );
 

@@ -1,12 +1,12 @@
 [package]
-name = "apr_or_die"
+name = "ape_or_die"
 version = "0.1.0"
 description = "Created with Anchor"
 edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "apr_or_die"
+name = "ape_or_die"
 
 [features]
 default = []
@@ -20,3 +20,4 @@ idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
 anchor-lang = { version = "0.30.1", features = ["init-if-needed"] }
 anchor-spl = { version = "0.30.1", features = ["metadata"] }
 spl-token = "4.0.3"
+proc-macro2 = { version = "1.0.94", default-features = false }

@@ -6,14 +6,14 @@ resolution = true
 skip-lint = true
 
 [programs.devnet]
-ApeOrDie = "AGEP4SYNcoeTWX6eBAR5yFXv5inXmWwJACJqz29xYwJY"
+ApeOrDie = "Ks6N2eSijgaQ6Gjpjc78M6deX8LrngprTPt5zxombdK"
 
 [registry]
 url = "https://staked.helius-rpc.com/?api-key=67ea9085-1406-4db8-8872-38ac77950d7a"
 
 [provider]
 cluster = "Devnet"
-wallet = "./id.json"
+wallet = "./wallet-keypair.json"
 
 [scripts]
 accept_authority = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/acceptAuthority.ts"
@@ -22,6 +22,7 @@ change_vault_manager = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/ch
 check_config = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/checkConfig.ts"
 init_ApeOrDie = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/initApeOrDie.ts"
 launch_token = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/launchToken.ts"
+post_deploy = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/post-deploy.ts"
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
 test_change_claimer = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/changeClaimer.ts"
 test_claim = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/claim.ts"
@@ -30,6 +31,7 @@ test_init = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/initRayVault.
 test_nft_balance = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/checkBalance.ts"
 test_withdraw = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/withdraw.ts"
 update_state = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/updateState.ts"
+listen-events = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/listenEvents.ts"
 
 [test]
 startup_wait = 10000
