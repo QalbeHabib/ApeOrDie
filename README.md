@@ -22,7 +22,7 @@ ApeOrDie is a Solana-based program designed to facilitate token launches and man
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/ApeOrDie.git
+   git clone [https://github.com/yourusername/ApeOrDie.git](https://github.com/QalbeHabib/ApeOrDie)
    cd ApeOrDie/program
    ```
 
